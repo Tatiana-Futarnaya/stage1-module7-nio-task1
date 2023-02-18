@@ -18,27 +18,26 @@ public class FileReader {
         try(RandomAccessFile aFile = new RandomAccessFile(file.getAbsolutePath(), "r");
             FileChannel channel=aFile.getChannel()){
             ByteBuffer buffer = ByteBuffer.allocate((int) channel.size());
-            String l="";
-            String[] arr=new String[buffer.limit()];
+            StringBuilder builder=new StringBuilder() ;
+            String l;
             while (channel.read(buffer)>0){
                 buffer.flip();
 
                 for (int i=0; i<buffer.limit(); i++) {
-                    l=l+(char)buffer.get();
+                    builder.append((char) buffer.get());
 
                 }
 
             }
 
+            l=builder.toString();
             for (String item: l.split("(\\w*:\\s)|(\r\n)")) {
-                if(item!=""){
+                if(!item.equals("")){
                     list.add(item);
                 }
             }
             buffer.clear();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
