@@ -1,7 +1,6 @@
 package com.epam.mjc.nio;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -31,11 +30,12 @@ public class FileReader {
             }
 
             l=builder.toString();
-            for (String item: l.split("(\\w*:\\s)|(\r\n)")) {
+            for (String item: l.split("(\\w*:\\s*)|(\r*\n)")) {
                 if(!item.equals("")){
                     list.add(item);
                 }
             }
+
             buffer.clear();
 
         } catch (IOException e) {
@@ -43,8 +43,11 @@ public class FileReader {
         }
 
         profile.setName(list.get(0));
+
         profile.setAge(Integer.valueOf(list.get(1)));
+
         profile.setEmail(list.get(2));
+
         profile.setPhone(Long.valueOf(list.get(3)));
 
         return profile;
